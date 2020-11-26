@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+<title>Cadastro de Candidatos</title>
+
+<!-- Script de mascara para CPF e Nota -->
+<script type="text/javascript">
+	function fMasc(objeto, mascara) {
+		obj = objeto
+		masc = mascara
+		setTimeout("fMascEx()", 1)
+	}
+	function fMascEx() {
+		obj.value = masc(obj.value)
+	}
+
+	function mCPF(cpf) {
+		cpf = cpf.replace(/\D/g, "")
+		cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2")
+		cpf = cpf.replace(/(\d{3})(\d)/, "$1.$2")
+		cpf = cpf.replace(/(\d{3})(\d{1,2})$/, "$1-$2")
+		return cpf
+	}
+
+	function mNum(num) {
+		num = num.replace(/\D/g, "")
+		num = num.replace(/(\d{3})(\d)/, "$0")
+
+		return num
+	}
+</script>
+
+</head>
+
+<body>
+
+	<div class="content-wrapper" layout:fragment="corpo">
+		<div class="panel panel-default">
+			<!-- <th:block th:if="${error != null}">
+				<div class="alert alert-danger">
+					<span th:text="${error}"></span>
+				</div>
+			</th:block> -->
+			<div class="row">
+				<div class="col-lg-12">
+					<br>
+					<fieldset>
+						<div class="form-group row">
+
+							<div align="center" class="col-md-4 mb-3 mb-sm-0">
+								<img th:src="@{/imagens/images.jpg}" height="350px"
+									width="200px" class="img-fluid" alt="Responsive image">
+							</div>
+							<br>
+							<div align="center" class="col-md-4 mb-3 mb-sm-0">
+								<h5>
+									<h2>
+										<b>Cadastro de Candidatos</b>
+									</h2>
+								</h5>
+							</div>
+						</div>
+				</div>
+				</fieldset>
+			</div>
+			<form class="container" method="post" th:object="${candidato}"
+				th:action="@{/candidato/save}">
+
+				<!--Input responsável em guardar o id-->
+				<input id="id" name="id" type="hidden" th:field="*{id}"
+					th:value="*{id}">
+
+				<!-- div reponsável em mostrar os erros -->
+				<div class="form-group row">
+					<div class="alert alert-danger alert-dismissible fade show"
+						role="alert" th:if="${#fields.hasAnyErrors()}">
+
+						<button type="button" class="close" data-dismiss="alert"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+
+						<div th:each="detailedError : ${#fields.detailedErrors()}">
+							<strong th:text="${detailedError.message}"> </strong>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12">
+						<fieldset>
+							<div class="form-group row">
+								<div class="col-md-4 mb-3 mb-sm-0"
+									th:classappend="${#fields.hasErrors('nome')}? 'has-error'">
+									<label><b>Nome</b>*</label> <input type="text"
+										required="required" class="form-control input-sm"
+										th:field="*{nome}" autofocus="autofocus"
+										placeholder="Nome e Sobrenome" maxlength="150" />
+								</div>
+
+								<div class="col-md-3 mb-3 mb-sm-0"
+									th:classappend="${#fields.hasErrors('cpf')}? 'has-error'">
+									<label><b>CPF</b>*</label> <input type="text"
+										required="required" class="form-control input-sm"
+										th:field="*{cpf}" autofocus="autofocus"
+										onkeydown="javascript: fMasc( this, mCPF );"
+										placeholder="Ex.: 000.000.000-00" maxlength="14" />
+								</div>
+								<div class="col-md-3 mb-3 mb-sm-0"
+									th:classappend="${#fields.hasErrors('email')}? 'has-error'">
+									<label><b>E-mail</b>*</label> <input type="email"
+										required="required" autofocus="autofocus"
+										class="form-control input-sm" th:field="*{email}"
+										placeholder="exemplo@email.com" maxlength="150" />
+								</div>
+								<div class="col-md-2 mb-3 mb-sm-0"
+									th:classappend="${#fields.hasErrors('nota')}? 'has-error'">
+									<label><b>Nota </b> <h9> (0-100)</h9></label> <input
+										type="text" required="required" class="form-control input-sm"
+										autofocus="autofocus"
+										onkeydown="javascript: fMasc( this, mNum );"
+										th:field="*{nota}" maxlength="3" />
+								</div>
+
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				<div>
+					<h12> (<b>*</b>) - Campos Obrigatórios</h12>
+				</div>
+
+				<fieldset align="right">
+					<div class="form-group row">
+						<div class="col-lg-12">
+							<button type="submit" class="btn btn-sm btn-success">Cadastrar</button>
+							<a th:href="@{/candidato/add}" class="btn btn-sm btn-danger">Cancelar
+							</a>
+						</div>
+					</div>
+				</fieldset>
+
+			</form>
+
+			<!-- Inicio da tabela de listagem -->
+			<div class="row" align="center">
+				<div class="col-lg-12">
+					<div>
+						<div class="panel panel-default">
+
+							<!-- Exibe mensagem de sucesso -->
+							<div class="col-md-12" th:if="${success}">
+								<div class="alert alert-success alert-dismissible fade show"
+									role="alert">
+									<strong>Sucesso! </strong><a th:text="${success}"></a>
+									<button type="button" class="close" data-dismiss="alert"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</div>
+
+							<!-- Exibe mensagem de erro -->
+							<div class="col-md-12" th:if="${error}">
+								<div class="alert alert-danger alert-dismissible fade show"
+									role="alert">
+									<strong>Erro! </strong> <a th:text="${error}"></a>
+									<button type="button" class="close" data-dismiss="alert"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</div>
+
+							<fieldset>
+								<div class="col-lg-10">
+									<div align="center" class="panel-heading">
+										<h5>
+											<strong>Tabela de Classificação dos Candidatos</strong>
+										</h5>
+									</div>
+									<div class="panel-body">
+										<div style="overflow: auto; width: 900px; height: 350px;">
+											<table id="basic-datatables"
+												class="display table table table-hover">
+												<thead>
+													<tr>
+														<th>Nome</th>
+														<th>CPF</th>
+														<th>E-mail</th>
+														<th>Nota</th>
+														<th>Ações</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="candidato1 : ${candidatos}">
+														<td th:text="${candidato1.nome}"></td>
+														<td th:text="${candidato1.cpf}"></td>
+														<td th:text="${candidato1.email}"></td>
+														<td th:text="${candidato1.nota}"></td>
+														<td>
+															<div align="center">
+																<div>
+																	<a class="delete btn btn-sm btn-danger"
+																		th:href="@{/candidato/delete/{id}(id=${candidato1.id})}">Excluir</a>
+																	<a class="btn btn-primary btn-sm"
+																		th:href="@{/candidato/edit/{id}(id=${candidato1.id})}">Editar</a>
+																</div>
+															</div>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+							<br>
+							<div align="left" class="panel-footer">
+								<a class="btn btn-sm btn-success" th:href="@{/}">Voltar ao
+									Inicio</a>
+							</div>
+							<br> <br>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="row" align="center">
+				<div class="col-lg-12">
+					<h7> <b>ESIG - Software & Consultoria - 2020</b></h7>
+				</div>
+			</div>
+			<br> <br>
+</body>
+</html>
+
+
+
