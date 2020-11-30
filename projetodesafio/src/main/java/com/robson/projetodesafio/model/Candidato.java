@@ -10,6 +10,13 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
+
+/**
+ * @author robso
+ * Classe criada pra representar uma entidade no banco de dados com seus respectivos atributos.
+ * É o Model do padrão MVC
+ *
+ */
 @Entity
 public class Candidato implements Serializable {
 	

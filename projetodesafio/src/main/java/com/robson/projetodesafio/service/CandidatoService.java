@@ -9,6 +9,11 @@ import com.robson.projetodesafio.model.Candidato;
 import com.robson.projetodesafio.repository.CandidatoRepository;
 
 
+/**
+ * @author robso
+ * Classe da camada de serviços, implementa os métodos da camada repository
+ * 
+ */
 @Service
 public class CandidatoService {
 	

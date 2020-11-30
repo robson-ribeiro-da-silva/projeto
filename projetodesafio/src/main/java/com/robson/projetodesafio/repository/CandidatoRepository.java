@@ -9,6 +9,10 @@ import org.springframework.stereotype.Repository;
 import com.robson.projetodesafio.model.Candidato;
 
 
+/**
+ * @author robso
+ * Classe que permitir a implementação de métodos para realização de consultas no banco de dados (querys)
+ */
 @Repository
 public interface CandidatoRepository extends JpaRepository<Candidato, Long> {
 	
