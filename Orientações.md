@@ -1,6 +1,8 @@
 # projeto
 ORIENTAÇÕES PARA EXECUÇÃO DO PROJETO EM UMA MÁQUINA LOCAL
 
+1-	Foi desenvolvido uma aplicação utilizando o Spring Framework na qual consiste em uma aplicação que representa um cadastro simples de candidatos que pretendem ingressar na empresa ESIG – Software & Consultoria. Foram implementados os métodos de adicionar, editar, excluir e listar os candidatos, (CRUD).
+
 1-	Fazer download do projeto através do endereço do GitHub: https://github.com/robson-ribeiro-da-silva/projeto
 2-	Extrair o arquivo zipado em uma pasta de preferência (por exemplo: Em Documentos).
 3-	Importar o projeto no Eclipse IDE, ou em outra IDE de preferência.
